@@ -72,7 +72,7 @@ const Navbar = () => {
           <RightList>Login</RightList>
           <RightList>Logout</RightList>
           <RightList>
-            <Badge badgeContent={4} color="secondary">
+            <Badge badgeContent={0} color="secondary">
               <ShoppingCartOutlined />
             </Badge>
           </RightList>
