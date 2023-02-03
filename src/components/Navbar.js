@@ -5,7 +5,7 @@ import { Badge } from "@material-ui/core";
 
 const Container = styled.div`
   height: 60px;
-  background-color: white;
+  background-color: lightcyan;
 `;
 
 const Wrapper = styled.div`
@@ -32,7 +32,7 @@ const Right = styled.div`
   justify-content: flex-end;
 `;
 
-const SearchBoxContainer = styled.div`
+/*const SearchBoxContainer = styled.div`
   border: 0.5px solid lightgray;
   display: flex;
   align-items: center;
@@ -42,7 +42,7 @@ const SearchBoxContainer = styled.div`
 
 const Input = styled.input`
   border: none;
-`;
+`;*/
 
 const ShopHop = styled.h1`
   font-weight: bold;
@@ -53,17 +53,16 @@ const RightList = styled.div`
   cursor: pointer;
   margin-left: 25px;
 `;
-
+/*<SearchBoxContainer>
+            <Input />
+            <Search style={{ color: "gray" }} />
+          </SearchBoxContainer>*/
 const Navbar = () => {
   return (
     <Container>
       <Wrapper>
         <Left>
-          <Home />
-          <SearchBoxContainer>
-            <Input />
-            <Search style={{ color: "gray" }} />
-          </SearchBoxContainer>
+          <Home fontSize="large" />
         </Left>
         <Center>
           <ShopHop>ShopHop </ShopHop>
