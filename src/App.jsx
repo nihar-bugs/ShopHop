@@ -5,13 +5,11 @@ import Login from "./pages/Login";
 import Shop from "./pages/Shop"
 import ShopItem from "./pages/ShopItem";
 import Register from "./pages/Register";
+import Cart from "./pages/Cart";
 
 const App = () => {
   return  (
-    //<HomePage />
-    //<ShopItem />
-    //<Register />
-    <Login />
+    <Cart />
   )
   
   }
