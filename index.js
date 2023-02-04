@@ -1,3 +1,4 @@
+const userRoute = require("./routes/user");
 const express = require("express");
 const app = express();
 
@@ -14,6 +15,9 @@ mongoose
   .catch((err) =>
     console.log("DB Connection Failed! Please Check. Error Message:", err)
   );
+
+app.use(express.json());
+app.use("/api/users", userRoute);
 
 app.listen(process.env.PORT || 5000, () =>
   console.log("Backend is running on", process.env.PORT)
