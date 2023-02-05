@@ -91,7 +91,7 @@ router.post("/login", async (req, res) => {
     }
 
     const authToken = jwt.sign({ id: user._id }, process.env.JWT_SEC_KEY, {
-      expiresIn: "1d",
+      expiresIn: "10d",
     });
 
     const { password, ...others } = user._doc;
