@@ -9,4 +9,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: { createdAt: true, updatedAt: false } }
 );
 
-module.exports = mongoose.model("User", userSchema);
+const myDB = mongoose.connection.useDb("ShopHop");
+
+module.exports = myDB.model("User", userSchema);
