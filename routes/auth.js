@@ -58,7 +58,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   // Fetching login credentials from incoming request
 
-  const { username, password } = req.body;
+  const { username, password: reqPassword } = req.body;
 
   // PERFORMING VALIDATION
 
@@ -68,7 +68,7 @@ router.post("/login", async (req, res) => {
     });
   }
 
-  if (!password || password.length < 6 || password == "") {
+  if (!reqPassword || reqPassword.length < 6 || reqPassword == "") {
     return res.json({
       error: "Password is required and should be atleast 6 character long",
     });
@@ -86,7 +86,7 @@ router.post("/login", async (req, res) => {
       process.env.PASS_KEY
     ).toString(CryptoJS.enc.Utf8);
 
-    if (password !== hashedPassword) {
+    if (reqPassword !== hashedPassword) {
       return res.status(401).json({ error: "Incorrect Password" });
     }
 
@@ -94,7 +94,7 @@ router.post("/login", async (req, res) => {
       expiresIn: "1d",
     });
 
-    const { noPassword, ...others } = user._doc;
+    const { password, ...others } = user._doc;
 
     res.status(200).json({ ...others, authToken });
   } catch (err) {
