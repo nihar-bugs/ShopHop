@@ -1,7 +1,6 @@
 import Categories from "../components/Categories";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import Products from "../components/Products";
 import Slider from "../components/Slider";
 
 const HomePage = () => {
@@ -10,7 +9,6 @@ const HomePage = () => {
       <Navbar />
       <Slider />
       <Categories />
-      <Products />
       <Footer />
     </>
   );

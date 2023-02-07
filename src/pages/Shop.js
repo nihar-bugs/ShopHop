@@ -2,6 +2,8 @@ import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import Products from "../components/Products";
 import Footer from "../components/Footer";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const Container = styled.div``;
 
@@ -30,37 +32,52 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const Shop = () => {
+  //const location = useLocation();
+  //const cat = location.pathname.split("/")[2];
+  const [category, setCategory] = useState("");
+  const [priceRange, setPriceRange] = useState("");
+
+  const handleFilters = (e) => {
+    const value = e.target.value;
+    if (e.target.name === "category") {
+      setCategory(value);
+    }
+    if (e.target.name === "price") {
+      setPriceRange(value);
+    }
+  };
+
   return (
     <Container>
       <Navbar />
-      <Title>Dresses</Title>
+      <Title>{category}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter By:</FilterText>
-          <Select>
+          <Select name="category" onChange={handleFilters}>
             <Option disabled selected>
               Category
             </Option>
-            <Option>Torso</Option>
-            <Option>Bottom Wear</Option>
-            <Option>Footwear</Option>
-            <Option>Accessories</Option>
+            <Option value="Torso">Torso</Option>
+            <Option value="Bottomwear">Bottom Wear</Option>
+            <Option value="Footwear">Foot Wear</Option>
+            <Option value="Accessories">Accessories</Option>
           </Select>
         </Filter>
         <Filter>
           <FilterText>Filter By:</FilterText>
-          <Select>
+          <Select name="price" onChange={handleFilters}>
             <Option disabled selected>
               Price
             </Option>
-            <Option>100-500</Option>
-            <Option>500-1000</Option>
-            <Option>1000-2000</Option>
-            <Option>2000 - More</Option>
+            <Option value="<500">0-500</Option>
+            <Option value="500-1000">500-1000</Option>
+            <Option value="1000-2000">1000-2000</Option>
+            <Option value=">2000">2000-More</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Products cat={category} price={priceRange} />
       <Footer />
     </Container>
   );

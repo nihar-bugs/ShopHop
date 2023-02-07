@@ -2,7 +2,9 @@ import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-
+import { publicRequest } from "../requestMethods";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -42,7 +44,7 @@ const Price = styled.span`
 
 const AddRemoveProductContainer = styled.div`
   display: flex;
-  width: 50%;
+  width: 70%;
   align-items: center;
   justify-content: space-between;
 `;
@@ -80,27 +82,39 @@ const Button = styled.button`
 `;
 
 const ShopItem = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/" + id);
+        setProduct(res.data);
+      } catch (err) {}
+    };
+    getProduct();
+  }, [id]);
   return (
     <Container>
       <Navbar />
       <Wrapper>
         <ImageContainer>
-          <Image src="https://5.imimg.com/data5/SELLER/Default/2021/7/GN/SV/SO/21288657/denim-jacket-500x500.jpeg" />
+          <Image src={product.img} />
         </ImageContainer>
         <ProductInfoContainer>
-          <Title>Denim Jacket</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem id
-            doloribus accusantium voluptatum consequatur modi inventore placeat
-            illum qui? Numquam quo facere nesciunt asperiores cum dicta
-            repudiandae non eos nemo!
-          </Desc>
-          <Price>Rs.3000</Price>
+          <Title>{product.title}</Title>
+          <Desc>{product.desc}</Desc>
+          <Price>Rs.{product.price}</Price>
           <AddRemoveProductContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove
+                onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+              />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => setQuantity(quantity + 1)} />
             </AmountContainer>
             <Button>Add To Cart</Button>
           </AddRemoveProductContainer>
