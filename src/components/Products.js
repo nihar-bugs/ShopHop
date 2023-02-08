@@ -41,7 +41,7 @@ const Products = ({ cat, price }) => {
         }
         if (!cat && !price) {
           const res = await axios.get("http://localhost:5000/api/products");
-          console.log(res.data, " Category and price not selected");
+
           setProducts(res.data);
         }
       } catch (err) {

@@ -1,4 +1,8 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { publicRequest } from "../requestMethods";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -38,6 +42,7 @@ const Input = styled.input`
   min-width: 40%;
   margin: 20px 10px 0px 0px;
   padding: 10px;
+  font-family: "Urbanist", sans-serif;
 `;
 
 const Button = styled.button`
@@ -51,17 +56,56 @@ const Button = styled.button`
 `;
 
 const Register = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleRegistration = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await publicRequest.post("/auth/register", {
+        username,
+        email,
+        password,
+      });
+      if (res.data.error) {
+        alert(res.data.error);
+      } else {
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        alert("Registration Successful!!");
+        navigate("/login");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          <Input placeholder="name"></Input>
-          <Input placeholder="username"></Input>
-          <Input placeholder="email"></Input>
-          <Input placeholder="password"></Input>
-          <Input placeholder="address"></Input>
-          <Button>CREATE ACCOUNT</Button>
+          <Input
+            value={username}
+            placeholder="username"
+            onChange={(e) => setUsername(e.target.value)}
+          ></Input>
+          <Input
+            value={email}
+            placeholder="email"
+            onChange={(e) => setEmail(e.target.value)}
+          ></Input>
+          <Input
+            value={password}
+            placeholder="password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          ></Input>
+          <Button onClick={handleRegistration}>CREATE ACCOUNT</Button>
+          <Link to="/login">Already Registeres? Login!</Link>
+          <Link to="/">Back to ShopHop</Link>
         </Form>
       </Wrapper>
     </Container>

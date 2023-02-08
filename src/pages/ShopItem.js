@@ -5,6 +5,9 @@ import Navbar from "../components/Navbar";
 import { publicRequest } from "../requestMethods";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
+
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -88,6 +91,8 @@ const ShopItem = () => {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const getProduct = async () => {
       try {
@@ -97,6 +102,10 @@ const ShopItem = () => {
     };
     getProduct();
   }, [id]);
+
+  const handleAddToCart = () => {
+    dispatch(addProduct({ ...product, quantity }));
+  };
   return (
     <Container>
       <Navbar />
@@ -116,7 +125,7 @@ const ShopItem = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={() => setQuantity(quantity + 1)} />
             </AmountContainer>
-            <Button>Add To Cart</Button>
+            <Button onClick={handleAddToCart}>Add To Cart</Button>
           </AddRemoveProductContainer>
         </ProductInfoContainer>
       </Wrapper>

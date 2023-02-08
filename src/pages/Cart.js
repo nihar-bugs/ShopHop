@@ -2,6 +2,8 @@ import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div``;
 
@@ -17,7 +19,7 @@ const Title = styled.h1`
 const Top = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 20px;
 `;
 
@@ -129,68 +131,66 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user.currentUser);
+  const handleCheckOut = () => {
+    if (user) {
+      console.log("Proceed to success page");
+      navigate("/success");
+    } else {
+      alert("Please login to place order");
+      navigate("/login");
+    }
+  };
+
   return (
     <Container>
       <Navbar />
       <Wrapper>
         <Title>WELCOME TO CHECKOUT COUNTER</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
-          <TopButton type="filled">CHECKOUT</TopButton>
+          <TopButton onClick={() => navigate("/products/:category")}>
+            CONTINUE SHOPPING
+          </TopButton>
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetails>
-                <Image src="https://images.pexels.com/photos/11281577/pexels-photo-11281577.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
-                <Details>
-                  <Name>
-                    <b>Product:</b>Shoes
-                  </Name>
-                  <Category>
-                    <b>Category:</b>Footwear
-                  </Category>
-                  <Quantity>2</Quantity>
-                </Details>
-              </ProductDetails>
-              <PriceDetails>
-                <ProductAmountConatiner>
-                  <Add />
-                  <Amount>2</Amount>
-                  <Remove />
-                </ProductAmountConatiner>
-                <ProductPrice>Rs.1500</ProductPrice>
-              </PriceDetails>
-            </Product>
+            {cart.products.map((product) => (
+              <Product>
+                <ProductDetails>
+                  <Image src={product.img} />
+                  <Details>
+                    <Name>
+                      Product:
+                      {product.title}
+                    </Name>
+                    <Category>
+                      Category:
+                      {product.categories}
+                    </Category>
+                    <Quantity>2</Quantity>
+                  </Details>
+                </ProductDetails>
+                <PriceDetails>
+                  <ProductAmountConatiner>
+                    <Add />
+                    <Amount>{product.quantity}</Amount>
+                    <Remove />
+                  </ProductAmountConatiner>
+                  <ProductPrice>
+                    Rs.{product.price * product.quantity}
+                  </ProductPrice>
+                </PriceDetails>
+              </Product>
+            ))}
             <Hr />
-            <Product>
-              <ProductDetails>
-                <Image src="https://www.pngarts.com/files/3/Women-Jacket-PNG-High-Quality-Image.png" />
-                <Details>
-                  <Name>
-                    <b>Product:</b>Trench Coat
-                  </Name>
-                  <Category>
-                    <b>Category:</b>TORSO
-                  </Category>
-                  <Quantity>1</Quantity>
-                </Details>
-              </ProductDetails>
-              <PriceDetails>
-                <ProductAmountConatiner>
-                  <Add />
-                  <Amount>2</Amount>
-                  <Remove />
-                </ProductAmountConatiner>
-                <ProductPrice>Rs.2000</ProductPrice>
-              </PriceDetails>
-            </Product>
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal:</SummaryItemText>
-              <SummaryItemPrice>Rs.1500</SummaryItemPrice>
+              <SummaryItemPrice>Rs.{cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Cost:</SummaryItemText>
@@ -202,9 +202,9 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total Amount:</SummaryItemText>
-              <SummaryItemPrice>Rs.1500</SummaryItemPrice>
+              <SummaryItemPrice>Rs.{cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <Button onClick={handleCheckOut}>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>

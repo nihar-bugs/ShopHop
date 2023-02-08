@@ -2,6 +2,10 @@ import styled from "styled-components";
 import React from "react";
 import { Home, Search, ShoppingCartOutlined } from "@material-ui/icons";
 import { Badge } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { logout } from "../redux/loginCall";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div`
   height: 60px;
@@ -58,24 +62,77 @@ const RightList = styled.div`
             <Search style={{ color: "gray" }} />
           </SearchBoxContainer>*/
 const Navbar = () => {
+  const user = useSelector((state) => state.user.currentUser);
+  const Token = JSON.parse(window.localStorage.getItem("Token"));
+  const quantity = useSelector((state) => state.cart.quantity);
+
+  const dispatch = useDispatch();
+
+  const handleLogOut = () => {
+    logout(dispatch);
+  };
+
   return (
     <Container>
       <Wrapper>
         <Left>
-          <Home fontSize="large" />
+          <Link to="/" style={{ color: "inherit", textDecoration: "inherit" }}>
+            <Home fontSize="large" />
+          </Link>
         </Left>
+
         <Center>
-          <ShopHop>ShopHop </ShopHop>
+          <Link
+            to="/products/:category"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            <ShopHop>ShopHop </ShopHop>
+          </Link>
         </Center>
         <Right>
-          <RightList>Register</RightList>
-          <RightList>Login</RightList>
-          <RightList>Logout</RightList>
-          <RightList>
-            <Badge badgeContent={0} color="secondary">
-              <ShoppingCartOutlined />
-            </Badge>
-          </RightList>
+          {user && Token ? (
+            <>
+              <Link
+                to="/myorders"
+                style={{ color: "inherit", textDecoration: "inherit" }}
+              >
+                <RightList>My Orders</RightList>
+              </Link>
+              <Link
+                to="/"
+                onClick={handleLogOut}
+                style={{ color: "inherit", textDecoration: "inherit" }}
+              >
+                <RightList>Logout</RightList>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/register"
+                style={{ color: "inherit", textDecoration: "inherit" }}
+              >
+                <RightList>Register</RightList>
+              </Link>
+              <Link
+                to="/login"
+                style={{ color: "inherit", textDecoration: "inherit" }}
+              >
+                <RightList>Login</RightList>
+              </Link>
+            </>
+          )}
+
+          <Link
+            to="/cart"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            <RightList>
+              <Badge badgeContent={quantity} color="secondary">
+                <ShoppingCartOutlined />
+              </Badge>
+            </RightList>
+          </Link>
         </Right>
       </Wrapper>
     </Container>

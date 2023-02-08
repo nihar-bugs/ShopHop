@@ -1,4 +1,9 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/loginCall";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -35,6 +40,7 @@ const Form = styled.form`
 
 const Input = styled.input`
   flex: 1;
+  font-family: "Urbanist", sans-serif;
   min-width: 40%;
   margin: 20px 10px 0px 0px;
   padding: 10px;
@@ -49,26 +55,61 @@ const Button = styled.button`
   margin-top: 10px;
   cursor: pointer;
   margin-bottom: 10px;
+
+  &:disabled {
+    color: green;
+    cursor: not-allowed;
+  }
 `;
 
-const Link = styled.a`
+const Linka = styled.a`
   margin: 5px 0px;
   font-style: 12px;
   text-decoration: underline;
   cursor: pointer;
 `;
 
+const Error = styled.span`
+  color: red;
+`;
+
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login(dispatch, { username, password });
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
-          <Input placeholder="name"></Input>
-          <Input placeholder="password"></Input>
-          <Button>LOGIN</Button>
-          <Link>Forgot your password?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+          <Input
+            placeholder="name"
+            onChange={(e) => setUsername(e.target.value)}
+          ></Input>
+          <Input
+            placeholder="password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          ></Input>
+          <Button onClick={handleLogin} disabled={isFetching}>
+            LOGIN
+          </Button>
+          {error && <Error>Login Failed</Error>}
+
+          <Link to="/register">
+            <Linka>CREATE A NEW ACCOUNT</Linka>
+          </Link>
+          <Link to="/">
+            <Linka>Back to ShopHop</Linka>
+          </Link>
         </Form>
       </Wrapper>
     </Container>
