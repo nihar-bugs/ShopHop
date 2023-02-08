@@ -97,9 +97,7 @@ const Success = () => {
             <SuccessMessage>
               Order Placed Successfully. Order ID:{orderId}
             </SuccessMessage>
-            <Button onClick={() => navigate("/shop")}>
-              Continue ShopHoping!!
-            </Button>
+            <Button onClick={() => navigate("/")}>Continue ShopHoping!!</Button>
           </>
         )}
       </Wrapper>

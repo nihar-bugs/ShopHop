@@ -36,18 +36,6 @@ const Right = styled.div`
   justify-content: flex-end;
 `;
 
-/*const SearchBoxContainer = styled.div`
-  border: 0.5px solid lightgray;
-  display: flex;
-  align-items: center;
-  margin-left: 25px;
-  padding: 5px;
-`;
-
-const Input = styled.input`
-  border: none;
-`;*/
-
 const ShopHop = styled.h1`
   font-weight: bold;
 `;
@@ -57,10 +45,7 @@ const RightList = styled.div`
   cursor: pointer;
   margin-left: 25px;
 `;
-/*<SearchBoxContainer>
-            <Input />
-            <Search style={{ color: "gray" }} />
-          </SearchBoxContainer>*/
+
 const Navbar = () => {
   const user = useSelector((state) => state.user.currentUser);
   const Token = JSON.parse(window.localStorage.getItem("Token"));

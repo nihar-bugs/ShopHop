@@ -10,10 +10,7 @@ export const login = async (dispatch, user) => {
   dispatch(loginStart());
 
   try {
-    //console.log("making call");
     const res = await publicRequest.post("/auth/login", user);
-
-    //console.log(res.data.authToken);
 
     if (res.data.username) {
       dispatch(loginSuccess(res.data));
@@ -21,8 +18,6 @@ export const login = async (dispatch, user) => {
     } else {
       dispatch(loginFailure());
     }
-
-    //console.log(res.data);
   } catch (err) {
     dispatch(loginFailure());
   }

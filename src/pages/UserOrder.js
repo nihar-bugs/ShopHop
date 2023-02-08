@@ -23,17 +23,7 @@ const UserOrder = ({ order }) => {
     getOrders();
   }, [user_id]);
 
-  return (
-    <Container>
-      {orders.map((item) => (
-        <tr key={item.id}>
-          <td>{item._id}</td>
-          <td>{item.userId}</td>
-          <td>{item.amount}</td>
-        </tr>
-      ))}
-    </Container>
-  );
+  return <div>UserOrder</div>;
 };
 
 export default UserOrder;

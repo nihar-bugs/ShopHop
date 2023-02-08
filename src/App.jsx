@@ -7,7 +7,6 @@ import ShopItem from "./pages/ShopItem";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import UserOrders from "./pages/UserOrders";
-import Products from "./components/Products";
 import{ BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import{useSelector} from "react-redux"
 import Success from "./pages/Success";

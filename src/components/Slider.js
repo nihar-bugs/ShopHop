@@ -1,5 +1,4 @@
 import styled from "styled-components";
-//import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
 
 const Container = styled.div`
   width: 100%;
@@ -8,24 +7,6 @@ const Container = styled.div`
   display: flex;
   position: relative;
 `;
-
-/*const Arrow = styled.div`
-  background-color: #fff7f7;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: ${(props) => props.pos === "left" && "10px"};
-  right: ${(props) => props.pos === "right" && "10px"};
-  margin: auto;
-  cursor: pointer;
-  opacity: 0.5;
-`;*/
 
 const HomeWrapper = styled.div`
   display: flex;
