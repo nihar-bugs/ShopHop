@@ -19,17 +19,59 @@ router.get("/find/:id", async (req, res) => {
 // FETCH ALL PRODUCTS
 
 router.get("/", async (req, res) => {
-  const qLow = req.query.low;
-  const qHigh = req.query.high;
+  const qPrice = req.query.price;
   const qCategory = req.query.category;
 
   try {
     let products;
-
-    if (qLow && qHigh) {
-      products = await Product.find({
-        price: { $gte: qLow, $lte: qHigh },
-      });
+    if (qPrice && qCategory) {
+      if (qPrice == "<500") {
+        products = await Product.find({
+          $and: [
+            { price: { $gte: 0, $lte: 500 } },
+            { categories: { $in: [qCategory] } },
+          ],
+        });
+      } else if (qPrice == "500-1000") {
+        products = await Product.find({
+          $and: [
+            { price: { $gte: 500, $lte: 1000 } },
+            { categories: { $in: [qCategory] } },
+          ],
+        });
+      } else if (qPrice == "1000-2000") {
+        products = await Product.find({
+          $and: [
+            { price: { $gte: 1000, $lte: 2000 } },
+            { categories: { $in: [qCategory] } },
+          ],
+        });
+      } else if (qPrice == ">2000") {
+        products = await Product.find({
+          $and: [
+            { price: { $gte: 2000 } },
+            { categories: { $in: [qCategory] } },
+          ],
+        });
+      }
+    } else if (qPrice) {
+      if (qPrice == "<500") {
+        products = await Product.find({
+          price: { $gte: 0, $lte: 500 },
+        });
+      } else if (qPrice == "500-1000") {
+        products = await Product.find({
+          price: { $gte: 500, $lte: 1000 },
+        });
+      } else if (qPrice == "1000-2000") {
+        products = await Product.find({
+          price: { $gte: 1000, $lte: 2000 },
+        });
+      } else if (qPrice == ">2000") {
+        products = await Product.find({
+          price: { $gte: 2000 },
+        });
+      }
     } else if (qCategory) {
       products = await Product.find({ categories: { $in: [qCategory] } });
     } else {

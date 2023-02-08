@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
 const userRoute = require("./routes/user");
@@ -21,8 +22,7 @@ mongoose
     console.log("DB Connection Failed! Please Check. Error Message:", err)
   );
 
-//mongoose.connection.useDb("ShopHop");
-
+app.use(cors());
 app.use(express.json());
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);

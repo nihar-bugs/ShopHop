@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
+
 // REGISTER
 
 router.post("/register", async (req, res) => {
@@ -10,20 +11,20 @@ router.post("/register", async (req, res) => {
   // PERFORMING VALIDATION
 
   if (!username) {
-    res.json({
+    return res.json({
       error: "Name is required",
     });
   }
 
-  if (!password || password.length < 6) {
-    res.json({
-      error: "Password is required and should be atleast 6 character long",
+  if (!email) {
+    return res.json({
+      error: "Email is required",
     });
   }
 
-  if (!email) {
-    res.json({
-      error: "Email is required",
+  if (!password || password.length < 6) {
+    return res.json({
+      error: "Password is required and should be atleast 6 character long",
     });
   }
 
@@ -48,13 +49,15 @@ router.post("/register", async (req, res) => {
 
   try {
     const savedUser = await newUser.save();
-    res.json(savedUser);
+
+    return res.json(savedUser);
   } catch (err) {
-    res.json(err.toString());
+    return res.json(err.toString());
   }
 });
 
 // LOGIN
+
 router.post("/login", async (req, res) => {
   // Fetching login credentials from incoming request
 
@@ -62,7 +65,7 @@ router.post("/login", async (req, res) => {
 
   // PERFORMING VALIDATION
 
-  if (!username || username == "") {
+  if (!username || username === "") {
     return res.json({
       error: "Name is required",
     });
